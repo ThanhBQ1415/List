@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0
+}
+
+#homePage {
+    display: block;
+}
+
+nav {
+    display: flex;
+}
+
+
+#home {
+    margin: 0px;
+    padding: 10;
+}
