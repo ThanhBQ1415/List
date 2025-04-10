@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { mutate } from "swr"
+import { useState, useContext } from 'react';
+import { ModalContext } from '@/components/app.body'; 
 interface IProps {
     pblog?: {       
         author: string;
@@ -11,15 +13,14 @@ interface IProps {
     delete: boolean,
 }
 
-const DeleteModal: React.FC<IProps> = (props: IProps) => {
-    const { pblog } = props;
-    const productId = pblog?.id;
+function DeleteModal ()  {
+    const { blogToDelete,deleteModal } = useContext(ModalContext);
+    console.log(blogToDelete)
 
-    // Delete product without page reload
     const handleDelete = async () => {
-        if (productId) {
+        if (blogToDelete?.id) {
             try {
-                await axios.delete(`http://localhost:8000/blogs/${productId}`);
+                await axios.delete(`http://localhost:8000/blogs/${blogToDelete?.id}`);
                 mutate("http://localhost:8000/blogs")
                 // window.location.reload(); // Reload the page to refresh the blog list
             } catch (error) {
@@ -29,10 +30,10 @@ const DeleteModal: React.FC<IProps> = (props: IProps) => {
     };
 
     React.useEffect(() => {
-        if (props.delete && productId) {
+        if (deleteModal && blogToDelete?.id) {
             handleDelete();
         }
-    }, [props.delete, productId]);
+    }, [deleteModal, blogToDelete?.id]);
 
     return null;
 }

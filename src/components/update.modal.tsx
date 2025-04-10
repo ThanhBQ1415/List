@@ -1,41 +1,41 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { mutate } from "swr"
 import axios from "axios";
+import { ModalContext } from '@/components/app.body'; 
+// interface Iprops {
+//     updateModal: boolean,
+//     setUpdateModal: (v: boolean) => void;
+//     blog?: {       
+//         author: string;
+//         content: string;
+//         id: number;
+//         title: string;
+//     }
+// }
 
-interface Iprops {
-    updateModal: boolean,
-    setUpdateModal: (v: boolean) => void;
-    blog?: {       
-        author: string;
-        content: string;
-        id: number;
-        title: string;
-    }
-}
-
-function UpdateModal(props: Iprops) {
-    const { updateModal, setUpdateModal, blog } = props;
+function UpdateModal() {
+    const { updateModal, setUpdateModal, blogToedit } = useContext(ModalContext);
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [content, setContent] = useState<string>("")
 
     useEffect(() => {
-        if(blog) {
-            setTitle(blog.title)
-            setAuthor(blog.author)
-            setContent(blog.content)
+        if(blogToedit) {
+            setTitle(blogToedit.title)
+            setAuthor(blogToedit.author)
+            setContent(blogToedit.content)
         }
-    }, [blog])
+    }, [blogToedit])
 
     const handleSubmit = () => {
-        if(!blog?.id) return;
+        if(!blogToedit?.id) return;
         
-        axios.put(`http://localhost:8000/blogs/${blog.id}`, {
+        axios.put(`http://localhost:8000/blogs/${blogToedit.id}`, {
             title: title,
             content: content,
             author: author

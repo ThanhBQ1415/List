@@ -1,44 +1,50 @@
 'use client'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { mutate } from "swr"
 import axios from "axios";
+import { createContext } from 'react';
+import { ModalContext } from '@/components/app.body'; 
 
-interface Iprops {
-    showModalCreate: boolean,
-    setShowModalCreate: (v: boolean) => void;
-}
-
-function CreateModal(props: Iprops) {
-    const { showModalCreate, setShowModalCreate } = props;
+function CreateModal() {
+    // Get modal state and setter from context
+    const { showModalCreate, setShowModalCreate } = useContext(ModalContext);
+    
+    // State for form inputs
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [content, setContent] = useState<string>("")
 
+    console.log("thanhdeptrai")
+    
+    // Handle submit form and create new blog
     const handleSubmit = () => {
-       
+        console.log("thanhdeptrai")
+        // Send POST request to create new blog
         axios.post("http://localhost:8000/blogs", {
             title: title,
             content: content,
             author: author
         }).then(res => {
             if (res) {
-                mutate("http://localhost:8000/blogs")
-              
+                // Revalidate data and close modal
+                mutate("http://localhost:8000/blogs")             
                 handleCloseModal()
-
             }
         });
     }
+
+    // Reset form and close modal
     const handleCloseModal = () => {
         setTitle("")
         setAuthor("")
         setContent("")
         setShowModalCreate(false)
     }
+
     return (
         <>
             <Modal
