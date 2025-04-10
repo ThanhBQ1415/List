@@ -1,40 +1,36 @@
-'use client';
-
+'use client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Appheader from '@/components/app.header';
 import Appfooter from '@/components/app.footer';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { useState } from 'react';
-import { ModalContext } from '@/components/app.body'; 
+import { Provider } from 'react-redux';
+import { store } from '@/app/Redux/Store';
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  // const [showModalCreate, setShowModalCreate] = useState(false);
-
   return (
     <html lang="en">
       <body>
-        {/* <ModalContext.Provider value={{ showModalCreate, setShowModalCreate }}> */}
-          <Appheader />
-          {children}
-          <Appfooter />
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-            transition={Bounce}
-          />
-        {/* </ModalContext.Provider> */}
+        <Appheader />
+        <Provider store={store}>
+        {children}
+        </Provider>
+        <Appfooter />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Bounce} />
       </body>
     </html>
-  );
+  )
 }

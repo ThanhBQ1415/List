@@ -1,21 +1,22 @@
 import axios from 'axios';
 import React from 'react';
 import { mutate } from "swr"
-import { useState, useContext } from 'react';
-import { ModalContext } from '@/components/app.body'; 
-interface IProps {
-    pblog?: {       
-        author: string;
-        content: string;
-        id: number;
-        title: string;
-    }
-    delete: boolean,
-}
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+// interface IProps {
+//     pblog?: {       
+//         author: string;
+//         content: string;
+//         id: number;
+//         title: string;
+//     }
+//     delete: boolean,
+// }
 
 function DeleteModal ()  {
-    const { blogToDelete,deleteModal } = useContext(ModalContext);
-    console.log(blogToDelete)
+    const blogToDelete = useSelector((state: any) => state.blog.blogToDelete);
+    const deleteModal = useSelector((state: any) => state.blog.deleteModal);
+  
 
     const handleDelete = async () => {
         if (blogToDelete?.id) {

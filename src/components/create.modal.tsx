@@ -1,29 +1,29 @@
 'use client'
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { mutate } from "swr"
 import axios from "axios";
-import { createContext } from 'react';
-import { ModalContext } from '@/components/app.body'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { setShowModalCreate } from '@/app/Redux/blogSlice';
 
 function CreateModal() {
-    // Get modal state and setter from context
-    const { showModalCreate, setShowModalCreate } = useContext(ModalContext);
-    
+    // Get modal state from Redux store
+    const showModalCreate = useSelector((state: any) => state.blog.showModalCreate);
+    console.log(showModalCreate)
+    const dispatch = useDispatch();
+
     // State for form inputs
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [content, setContent] = useState<string>("")
 
-    console.log("thanhdeptrai")
+
     
     // Handle submit form and create new blog
     const handleSubmit = () => {
-        console.log("thanhdeptrai")
-        // Send POST request to create new blog
         axios.post("http://localhost:8000/blogs", {
             title: title,
             content: content,
@@ -42,7 +42,7 @@ function CreateModal() {
         setTitle("")
         setAuthor("")
         setContent("")
-        setShowModalCreate(false)
+        dispatch(setShowModalCreate(false))
     }
 
     return (

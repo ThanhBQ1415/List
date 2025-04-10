@@ -1,25 +1,31 @@
 'use client'
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { mutate } from "swr"
 import axios from "axios";
-import { ModalContext } from '@/components/app.body'; 
-// interface Iprops {
-//     updateModal: boolean,
-//     setUpdateModal: (v: boolean) => void;
-//     blog?: {       
+import { useSelector, useDispatch } from 'react-redux';
+import { setUpdateModal, setBlogToEdit } from '@/app/Redux/blogSlice';
+
+// interface BlogState {
+//     updateModal: boolean;
+//     blogToedit: {
 //         author: string;
 //         content: string;
 //         id: number;
 //         title: string;
-//     }
+//     } | null;
 // }
 
 function UpdateModal() {
-    const { updateModal, setUpdateModal, blogToedit } = useContext(ModalContext);
+    const dispatch = useDispatch();
+    const blogToedit = useSelector((state: any) => state.blog.blogToEdit);
+    const updateModal = useSelector((state: any) => state.blog.updateModal);
+
+    console.log(blogToedit)
+
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [content, setContent] = useState<string>("")
@@ -54,7 +60,8 @@ function UpdateModal() {
         setTitle("")
         setAuthor("")
         setContent("")
-        setUpdateModal(false)
+        dispatch(setUpdateModal(false))
+        dispatch(setBlogToEdit({} as any))
     }
 
     return (
