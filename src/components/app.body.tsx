@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import UpdateModal from './update.modal';
 import DeleteModal from './delete.modal';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
     setShowModalCreate,
     setUpdateModal,
@@ -22,7 +24,7 @@ interface IProps {
 function DarkExample(props: IProps) {
     const { blogs } = props;
     const dispatch = useDispatch();
-    
+    const router = useRouter();
     
     const { 
         showModalCreate,
@@ -102,6 +104,12 @@ function DarkExample(props: IProps) {
             <CreateModal />
             <UpdateModal />
             <DeleteModal />
+            <Button 
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+                onClick={() => router.push('/blog')}
+                >
+                <i className='fas fa-trash'></i>
+            </Button>
         </div>
     );
 }

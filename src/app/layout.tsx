@@ -5,6 +5,7 @@ import Appfooter from '@/components/app.footer';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import { store } from '@/app/Redux/Store';
+import '@/styles/globals.css';
 export default function RootLayout({
   children,
 }: {
@@ -13,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Appheader />
+        <Appheader  />
         <Provider store={store}>
         {children}
         </Provider>
