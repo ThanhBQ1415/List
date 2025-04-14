@@ -15,6 +15,7 @@ interface BlogState {
   deleteModal: boolean
   blogToDelete: Blog | null
   blogToEdit: Blog | null
+  blogToSearch: Blog | null
 }
 
 const initialState: BlogState = {
@@ -30,7 +31,8 @@ const initialState: BlogState = {
   updateModal: false,
   deleteModal: false,
   blogToDelete: null,
-  blogToEdit: null
+  blogToEdit: null,
+  blogToSearch:null
 }
 
 const blogSlice = createSlice({
@@ -61,6 +63,9 @@ const blogSlice = createSlice({
     },
     setBlogToEdit: (state, action: PayloadAction<Blog>) => {
       state.blogToEdit = action.payload
+    },
+    setBlogToSearch: (state, action: PayloadAction<Blog>) => {
+      state.blogToSearch = action.payload
     }
   }
 })
@@ -74,6 +79,7 @@ export const {
   setDeleteModal,
   setBlogToDelete,
   setBlogToEdit,
+  setBlogToSearch
 } = blogSlice.actions
 
 export default blogSlice.reducer

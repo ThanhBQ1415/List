@@ -17,6 +17,7 @@ export default function Home() {
       revalidateOnReconnect: false
     }
   );
+  console.log(data)
   if (!data) {
     return <div>loading...</div>
   }

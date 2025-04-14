@@ -14,11 +14,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Appheader  />
         <Provider store={store}>
+        <Appheader  />
         {children}
-        </Provider>
         <Appfooter />
+        </Provider>
         <ToastContainer
           position="top-center"
           autoClose={3000}

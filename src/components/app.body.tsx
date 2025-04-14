@@ -1,17 +1,14 @@
 'use client'
-import { Button } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
-import CreateModal from './create.modal';
-import Form from 'react-bootstrap/Form';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
+import CreateModal from './create.modal';
 import UpdateModal from './update.modal';
 import DeleteModal from './delete.modal';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
     setShowModalCreate,
-    setUpdateModal,
+    setUpdateModal, 
     setDeleteModal,
     setBlogToDelete,
     setBlogToEdit
@@ -45,71 +42,67 @@ function DarkExample(props: IProps) {
     }
 
     return (
-        <div className='container mt-4'>
-            <div className='row mb-4'>
-                <div className='col'>
-                    <h3 className='text-primary'>Blog Management</h3>
-                </div>                
+        <div className='container px-4 mx-auto mt-8'>
+            <div className='mb-6'>
+                <h3 className='text-2xl font-bold text-blue-600'>Blog Management</h3>
             </div>
 
-            <div className='card shadow'>
-                <div className='card-body'>
-                    <Table hover responsive className='table-striped'>
-                        <thead className='bg-light'>
+            <div className='bg-white rounded-lg shadow-lg'>
+                <div className='p-6'>
+                    <table className='min-w-full divide-y divide-gray-200'>
+                        <thead className='bg-gray-50'>
                             <tr>
-                                <th className='text-center'>#</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th className='text-center'>Actions</th>
+                                <th className='px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase'>#</th>
+                                <th className='px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'>Title</th>
+                                <th className='px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase'>Author</th>
+                                <th className='px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase'>Actions</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                        </thead>    
+                        <tbody className='bg-white divide-y divide-gray-200'>
                             {blogs?.map(blog => (
-                                <tr key={blog.id}>
-                                    <td className='text-center'>{blog.id}</td>
-                                    <td>{blog.title}</td>
-                                    <td>{blog.author}</td>
-                                    <td className='text-center'>
-                                        <Button 
-                                            variant='outline-info' 
-                                            className='me-2'
+                                <tr key={blog.id} className='hover:bg-gray-50'>
+                                    <td className='px-6 py-4 text-sm text-center text-gray-500'>{blog.id}</td>
+                                    <td className='px-6 py-4 text-sm text-gray-900'>{blog.title}</td>
+                                    <td className='px-6 py-4 text-sm text-gray-900'>{blog.author}</td>
+                                    <td className='px-6 py-4 text-center'>
+                                        <button 
+                                            className='inline-flex items-center px-3 py-2 mr-2 text-sm font-medium text-blue-600 bg-white rounded-md border border-blue-300 hover:bg-blue-50'
                                             onClick={() => dispatch(setShowModalCreate(true))}
                                             title="Add Blog"
                                         >
-                                            <i className='fas fa-eye'></i>
-                                        </Button>
-                                        <Button 
-                                            variant='outline-warning' 
-                                            className='me-2'
+                                            Add
+                                        </button>
+                                        <button 
+                                            className='inline-flex items-center px-3 py-2 mr-2 text-sm font-medium text-yellow-600 bg-white rounded-md border border-yellow-300 hover:bg-yellow-50'
                                             onClick={() => handleEditClick(blog)}
                                             title="Edit Blog"
                                         >
-                                            <i className='fas fa-edit'></i>
-                                        </Button>
-                                        <Button 
-                                            variant='outline-danger'
+                                            Edit
+                                        </button>
+                                        <button 
+                                            className='inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 bg-white rounded-md border border-red-300 hover:bg-red-50'
                                             onClick={() => handleDeleteClick(blog)}
                                             title="Delete Blog"
                                         >
-                                            <i className='fas fa-trash'></i>
-                                        </Button>
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                    </Table>
+                    </table>
                 </div>
             </div>
 
             <CreateModal />
             <UpdateModal />
             <DeleteModal />
-            <Button 
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+            <button 
+                className="px-4 py-2 mt-4 font-semibold text-white bg-red-600 rounded-md transition duration-200 hover:bg-red-700"
                 onClick={() => router.push('/blog')}
-                >
-                <i className='fas fa-trash'></i>
-            </Button>
+            >
+                di
+            </button>
         </div>
     );
 }
