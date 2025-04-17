@@ -4,40 +4,46 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
-import { mutate } from "swr"
+import useSWR, { mutate } from "swr"
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setShowModalCreate } from '@/app/Redux/blogSlice';
 
+// Fetcher function for SWR
+const fetcher = (url: string) => axios.get(url).then(res => res.data);
+
 function CreateModal() {
     // Get modal state from Redux store
     const showModalCreate = useSelector((state: any) => state.blog.showModalCreate);
-    console.log(showModalCreate)
+    const { data: blogs, error } = useSWR("http://localhost:8000/blogs", fetcher);
+
     const dispatch = useDispatch();
 
-    // State for form inputs
+
     const [title, setTitle] = useState<string>("")
     const [author, setAuthor] = useState<string>("")
     const [content, setContent] = useState<string>("")
 
 
-    
-    // Handle submit form and create new blog
-    const handleSubmit = () => {
-        axios.post("http://localhost:8000/blogs", {
-            title: title,
-            content: content,
-            author: author
-        }).then(res => {
-            if (res) {
-                // Revalidate data and close modal
-                mutate("http://localhost:8000/blogs")             
-                handleCloseModal()
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post("http://localhost:8000/blogs", {
+                title: title,
+                content: content,
+                author: author
+            });
+            
+            if (response) {
+                mutate("http://localhost:8000/blogs");
+                toast.success("Blog created successfully!");
+                handleCloseModal();
             }
-        });
+        } catch (error) {
+            toast.error("Failed to create blog");
+        }
     }
 
-    // Reset form and close modal
+
     const handleCloseModal = () => {
         setTitle("")
         setAuthor("")

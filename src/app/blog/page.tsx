@@ -11,16 +11,18 @@ import { useSelector, useDispatch } from 'react-redux';
 // import '@/styles/globals.css';
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 export default function Home() {
+  
   type Blog = {
     id: number,
     title: string,
     author: string,
     content: string,
   }
-  let data: Blog[] | undefined;
+
+  let data;
   const BlogToSearch = useSelector((state: any) => state.blog.blogToSearch);
 
-console.log(BlogToSearch)
+
  if(BlogToSearch!=0) data = [BlogToSearch];
 
 
