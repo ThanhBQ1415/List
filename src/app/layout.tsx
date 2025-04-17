@@ -6,6 +6,9 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import { store } from '@/app/Redux/Store';
 import '@/styles/globals.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 export default function RootLayout({
   children,
 }: {
@@ -15,9 +18,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
         <Appheader  />
         {children}
         <Appfooter />
+        </QueryClientProvider>
         </Provider>
         <ToastContainer
           position="top-center"
