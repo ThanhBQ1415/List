@@ -10,13 +10,15 @@ import { useEffect, useState } from 'react';
 import { FaUser, FaSearch } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { 
+    setSearchModal,
     setBlogToSearch
 } from '@/app/Redux/blogSlice';
 
 export default function Appheader() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<any>(null);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [isSearch, setSearch] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const dispatch = useDispatch();
     const router = useRouter();
@@ -43,18 +45,21 @@ export default function Appheader() {
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`http://localhost:8000/blogs?content=${searchTerm}`);
-            if (!response.ok) {
-                throw new Error('Search failed');
-            }
-            const data = await response.json();
-            setSearchResults(data);
-            dispatch(setBlogToSearch(data));
-            router.push('/blog')
-        } catch (error) {
-            console.error('Error searching:', error);
-        }
+        dispatch(setBlogToSearch(searchTerm));
+        router.push('/blog')
+
+        // try {
+        //     const response = await fetch(`http://localhost:8000/blogs?content=${searchTerm}`);
+        //     if (!response.ok) {
+        //         throw new Error('Search failed');
+        //     }
+        //     const data = await response.json();
+        //     setSearchResults(data);
+        //     dispatch(setBlogToSearch(data));
+        //     router.push('/blog')
+        // } catch (error) {
+        //     console.error('Error searching:', error);
+        // }
     };
 
     return (

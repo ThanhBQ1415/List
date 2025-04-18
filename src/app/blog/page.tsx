@@ -1,41 +1,53 @@
 'use client'
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import x from '@/styles/app.module.css'
 import Appbody from '@/components/app.body'
-import { useEffect } from "react"
-import useSWR from "swr"
-import axios from "axios"
 import { setBlogToSearch } from '@/app/Redux/blogSlice';
-import { useSelector, useDispatch } from 'react-redux';
-// import '@/styles/globals.css';
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
-export default function Home() {
-  
-  type Blog = {
-    id: number,
-    title: string,
-    author: string,
-    content: string,
-  }
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-  let data;
+type Blog = {
+  id: number,
+  title: string,
+  author: string,
+  content: string,
+}
+
+export default function BlogPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
   const BlogToSearch = useSelector((state: any) => state.blog.blogToSearch);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (BlogToSearch) {
+          response = await fetch(`http://localhost:8000/blogs?content=${BlogToSearch}`);
+        } else {
+          response = await fetch('http://localhost:8000/blogs');
+        }
+        const data = await response.json();
+        setBlogs(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, [BlogToSearch]);
 
- if(BlogToSearch!=0) data = [BlogToSearch];
-
-
-console.log(data)
-  if (!data) {
+  if (loading) {
     return <div>loading...</div>
   }
+
   return (
     <div>
       <div>
       </div>
       <Appbody
-        blogs={data?.sort((a: any, b: any) => b.id - a.id)} />
+        blogs={blogs?.sort((a: any, b: any) => b.id - a.id)} />
     </div>
   )
 }
